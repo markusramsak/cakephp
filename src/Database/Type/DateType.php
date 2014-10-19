@@ -32,6 +32,14 @@ class DateType extends \Cake\Database\Type\DateTimeType {
  * @return \DateTime
  */
 	public function marshal($value) {
+	        if (is_array($value)) {
+	            if (empty($value['year']) OR empty($value['month']) OR empty($value['day'])) {
+	                return NULL;
+	            }
+	        } else if (trim($value) === '') {
+	            return '';
+	        }
+
 		$date = parent::marshal($value);
 		if ($date instanceof \DateTime) {
 			$date->setTime(0, 0, 0);
